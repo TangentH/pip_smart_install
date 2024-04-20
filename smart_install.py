@@ -16,7 +16,7 @@ def install_packages(requirements_path):
         
         parts = line.split('==')
         package_name = parts[0].strip()
-        requested_version = parts[1].strip() if len(parts) > 1 else None
+        requested_version = parts[1].strip() if len(parts) > 1 else 'not specified'
         
         try:
             # Install the specified version
@@ -28,7 +28,8 @@ def install_packages(requirements_path):
                 # If failed to install the specified version, install the default version
                 subprocess.check_call([sys.executable, '-m', 'pip', 'install', package_name])
                 print(f"Specified version failed, installed default version of {package_name}")
-                installed_packages[package_name] = (pkg_resources.get_distribution(package_name).version, requested_version)
+                actual_version = pkg_resources.get_distribution(package_name).version
+                installed_packages[package_name] = (actual_version, requested_version)
             except subprocess.CalledProcessError:
                 print(f"Failed to install any version of {package_name}")
                 failed_packages.append(package_name)
