@@ -10,33 +10,35 @@ def install_packages(requirements_path):
     failed_packages = []
 
     for line in lines:
-        parts = line.strip().split('==')
-        package_name = parts[0]
-        requested_version = parts[1] if len(parts) > 1 else None
+        line = line.strip()
+        if line.startswith('#') or not line:
+            continue  # Skip comments and empty lines
+        
+        parts = line.split('==')
+        package_name = parts[0].strip()
+        requested_version = parts[1].strip() if len(parts) > 1 else None
         
         try:
-            # install the specified version
-            subprocess.check_call([sys.executable, '-m', 'pip', 'install', line.strip()])
-            print(f"Successfully installed {line.strip()}")
-            installed_packages[package_name] = requested_version
+            # Install the specified version
+            subprocess.check_call([sys.executable, '-m', 'pip', 'install', line])
+            print(f"Successfully installed {line}")
+            installed_packages[package_name] = (requested_version, requested_version)
         except subprocess.CalledProcessError:
             try:
-                # if failed to install the specified version, install the default version
+                # If failed to install the specified version, install the default version
                 subprocess.check_call([sys.executable, '-m', 'pip', 'install', package_name])
                 print(f"Specified version failed, installed default version of {package_name}")
-                installed_packages[package_name] = 'default'  # Mark as default installed
+                installed_packages[package_name] = (pkg_resources.get_distribution(package_name).version, requested_version)
             except subprocess.CalledProcessError:
                 print(f"Failed to install any version of {package_name}")
                 failed_packages.append(package_name)
 
     # Print installed packages and their versions
     print("\nInstalled Packages and Versions:")
-    for package, requested_version in installed_packages.items():
-        actual_version = pkg_resources.get_distribution(package).version
-        if requested_version and requested_version != actual_version:
-            print(f"{package}=={actual_version} (requested {requested_version})")  # version mismatch
-        else:
-            print(f"{package}=={actual_version}")
+    print(f"{'Package':<20}{'Version Installed':<20}{'Version Requested':<20}")
+    print('-' * 60)
+    for package, (actual_version, requested_version) in installed_packages.items():
+        print(f"{package:<20}{actual_version:<20}{requested_version:<20}")
 
     # Print failed installations
     if failed_packages:
