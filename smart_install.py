@@ -55,11 +55,11 @@ def install_packages(requirements_path):
 
     # Print installed packages and their versions
     print("\nInstalled Packages and Versions:")
-    print(f"{'Package':<20}{'Version Installed':<20}{'Version Requested':<20}")
+    print(f"{'Package':<30}{'Version Installed':<20}{'Version Requested':<20}")
     print('-' * 60)
     for package, versions in installed_packages.items():
         actual_version, requested_version = versions
-        print(f"{package:<20}{actual_version:<20}{requested_version:<20}")
+        print(f"{package:<30}{actual_version:<20}{requested_version:<20}")
 
     # Print failed installations
     if failed_packages:
