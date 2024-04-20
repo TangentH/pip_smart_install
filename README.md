@@ -21,3 +21,49 @@ python smart_install.py
 ```
 wget https://raw.githubusercontent.com/Tangent-H/pip_smart_install/main/smart_install.py && python smart_install.py ; rm smart_install.py
 ```
+
+**Example:**
+
+```
+cd test
+conda activate test
+wget https://raw.githubusercontent.com/Tangent-H/pip_smart_install/main/smart_install.py && python smart_install.py ; rm smart_install.py
+```
+
+if the requirements.txt looks something like this:
+
+```
+# default installation
+numpy
+# wrong version
+pillow==1.2.3.4
+# correct version
+matplotlib==3.8.0
+# package not exist
+NoSuchPackage
+```
+
+The output of the script looks something like this:
+
+```
+Running in a Conda environment located at: /home/tan/anaconda3/envs/test
+Found requirements.txt.
+Do you want to continue with the installation? [y/n]: y
+
+...
+# pip install standard output
+...
+
+Installed Packages and Versions:
+Package             Version Installed   Version Requested   
+------------------------------------------------------------
+numpy               1.26.4              not specified       
+pillow              10.3.0              1.2.3.4             
+matplotlib          3.8.0               3.8.0               
+
+Failed to Install:
+NoSuchPackage
+
+```
+
+If you think this repo is useful, consider giving me a ⭐, thx!
