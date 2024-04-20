@@ -19,7 +19,7 @@ python smart_install.py
 3. make sure there is no such a file named `smart_install.py` in this directory because the following command tried to remove this file after installing all the requirements
 
 ```
-wget https://raw.githubusercontent.com/Tangent-H/pip_smart_install/main/smart_install.py && python smart_install.py ; rm smart_install.py
+wget -nc https://raw.githubusercontent.com/Tangent-H/pip_smart_install/main/smart_install.py && python smart_install.py && rm smart_install.py
 ```
 
 **Example:**
@@ -27,7 +27,7 @@ wget https://raw.githubusercontent.com/Tangent-H/pip_smart_install/main/smart_in
 ```
 cd test
 conda activate test
-wget https://raw.githubusercontent.com/Tangent-H/pip_smart_install/main/smart_install.py && python smart_install.py ; rm smart_install.py
+wget -nc https://raw.githubusercontent.com/Tangent-H/pip_smart_install/main/smart_install.py && python smart_install.py && rm smart_install.py
 ```
 
 if the requirements.txt looks something like this:
